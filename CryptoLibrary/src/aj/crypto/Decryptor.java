@@ -8,25 +8,22 @@ import aj.crypto.types.BlockCipherModeE;
 import aj.crypto.types.CryptographicModeE;
 import aj.crypto.types.CryptographicPaddingE;
 
-public class Decryptor extends CryptographicProcessor
-{
+public class Decryptor extends CryptographicProcessor {
 
-	public Decryptor(AlgorithmE algorithm, BlockCipherModeE cipherMode) 
-	{
-		super(CryptographicModeE.DECRYPT_MODE, new CryptographicConfiguration(algorithm, cipherMode, CryptographicPaddingE.NO_PADDING));
+	public Decryptor(AlgorithmE algorithm, BlockCipherModeE cipherMode) {
+		super(CryptographicModeE.DECRYPT_MODE,
+				new CryptographicConfiguration(algorithm, cipherMode, CryptographicPaddingE.NO_PADDING));
 	}
-	
-	public String getDataFromHexEncryptedString(Key key, String data)
-	{
-		byte [] transformedData = Transform.FromHexStringToByteArray(data);
-		byte [] encryptionResult = executeCriptographicProcess(key, transformedData);
+
+	public String getDataFromHexEncryptedString(Key key, String data) {
+		byte[] transformedData = Transform.FromHexStringToByteArray(data);
+		byte[] encryptionResult = executeCriptographicProcess(key, transformedData);
 		return Transform.FromByteArrayToString(encryptionResult);
 	}
-	
-	public String getDataFromBase64EncryptedString(Key key, String data)
-	{
-		byte [] transformedData = Transform.FromStringBase64toByteArray(data);
-		byte [] encryptionResult = executeCriptographicProcess(key, transformedData);
+
+	public String getDataFromBase64EncryptedString(Key key, String data) {
+		byte[] transformedData = Transform.FromStringBase64toByteArray(data);
+		byte[] encryptionResult = executeCriptographicProcess(key, transformedData);
 		return Transform.FromByteArrayToString(encryptionResult);
 	}
 }

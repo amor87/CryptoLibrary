@@ -8,13 +8,11 @@ import test.crypto.algorithm.CipherTestDES;
 import test.crypto.algorithm.CipherTestTripleDES;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses
-({
-   CipherTestAES128.class,
-   CipherTestDES.class,
-   CipherTestTripleDES.class
-})
-public class CipherTestSuite 
-{
+@Suite.SuiteClasses({ 
+	CipherTestAES128.class, 
+	CipherTestDES.class, 
+	CipherTestTripleDES.class 
+	})
+public class CipherTestSuite {
 
 }

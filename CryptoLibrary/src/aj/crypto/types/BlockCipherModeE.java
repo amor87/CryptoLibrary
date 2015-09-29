@@ -1,7 +1,6 @@
 package aj.crypto.types;
 
-public enum BlockCipherModeE 
-{
+public enum BlockCipherModeE {
 	
 	ECB("ECB"),
 	CBC("CBC"),
@@ -11,8 +10,7 @@ public enum BlockCipherModeE
 	
 	public final String name;
 	
-	private BlockCipherModeE(String name)
-	{
+	private BlockCipherModeE(String name) {
 		this.name = name;
 	}
 

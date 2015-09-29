@@ -14,80 +14,57 @@ import javax.crypto.spec.IvParameterSpec;
 import aj.crypto.model.CryptographicConfiguration;
 import aj.crypto.types.CryptographicModeE;
 
-abstract class CryptographicProcessor
-{
-	
+abstract class CryptographicProcessor {
+
 	private CryptographicModeE cryptographicMode;
 	private CryptographicConfiguration configuration;
 	private Cipher cipher;
-	
-	public CryptographicProcessor(CryptographicModeE cryptographicMode, CryptographicConfiguration configuration)
-	{
+
+	public CryptographicProcessor(CryptographicModeE cryptographicMode, CryptographicConfiguration configuration) {
 		this.cryptographicMode = cryptographicMode;
 		this.configuration = configuration;
-		try 
-		{
+		try {
 			cipher = Cipher.getInstance(this.configuration.getCryptographicInstance());
-		}
-		catch (NoSuchAlgorithmException e) 
-		{
+		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
-		}
-		catch (NoSuchPaddingException e) 
-		{
+		} catch (NoSuchPaddingException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	protected byte[] executeCriptographicProcess(aj.crypto.model.Key key, byte[] data)
-	{
+
+	protected byte[] executeCriptographicProcess(aj.crypto.model.Key key, byte[] data) {
 		SecretKey secretKeySpec = key.getSecretKeySpec(configuration);
-		if(key.isCustomKey())
-		{
+		if (key.isCustomKey()) {
 			executeCipherInitializationForCustomKey(secretKeySpec, key.getIVAlgorithmParameterSpec());
-		}
-		else
-		{
+		} else {
 			executeCipherInitializationForFormattedKey(secretKeySpec);
 		}
 		return getCipherOperationFinalizationResult(data);
 	}
-	
-	private void executeCipherInitializationForCustomKey(SecretKey key, IvParameterSpec iv)
-	{
-		try 
-		{
+
+	private void executeCipherInitializationForCustomKey(SecretKey key, IvParameterSpec iv) {
+		try {
 			cipher.init(cryptographicMode.value, key, iv);
-		} 
-		catch (InvalidKeyException | InvalidAlgorithmParameterException e) 
-		{
+		} catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	private void executeCipherInitializationForFormattedKey(SecretKey key)
-	{
-		try 
-		{
+
+	private void executeCipherInitializationForFormattedKey(SecretKey key) {
+		try {
 			cipher.init(cryptographicMode.value, key);
-		} 
-		catch (InvalidKeyException e) 
-		{
+		} catch (InvalidKeyException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	private byte[] getCipherOperationFinalizationResult(byte[] data)
-	{
-		byte [] cryptographicProcessedData;
-		try 
-		{
+
+	private byte[] getCipherOperationFinalizationResult(byte[] data) {
+		byte[] cryptographicProcessedData;
+		try {
 			cryptographicProcessedData = cipher.doFinal(data);
-		} 
-		catch (IllegalBlockSizeException | BadPaddingException e) 
-		{
+		} catch (IllegalBlockSizeException | BadPaddingException e) {
 			e.printStackTrace();
-			cryptographicProcessedData = new byte[]{0x00};
+			cryptographicProcessedData = new byte[] { 0x00 };
 		}
 		return cryptographicProcessedData;
 	}
